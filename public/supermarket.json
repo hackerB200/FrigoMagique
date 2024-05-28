@@ -3,7 +3,7 @@
       "id": 101,
       "nom": "Lait",
       "qte": 1,
-      "photo": "http://localhost:3000/images/Lait.png"
+      "photo": "/images/Lait.png"
     },
     {
       "id": 102,
@@ -118,6 +118,54 @@
       "nom": "Fraise",
       "qte": 1,
       "photo": "/images/Fraise.png"
+    },
+    {
+      "id": 121,
+      "nom": "Sauce soja",
+      "qte": 1,
+      "photo": "/images/SauceSoja.png"
+    },
+    {
+      "id": 122,
+      "nom": "Vin blanc",
+      "qte": 1,
+      "photo": "/images/VinBlanc.png"
+    },
+    {
+      "id": 123,
+      "nom": "Mayonnaise",
+      "qte": 1,
+      "photo": "/images/Mayonnaise.png"
+    },
+    {
+      "id": 124,
+      "nom": "Avocat",
+      "qte": 1,
+      "photo": "/images/Avocat.png"
+    },
+    {
+      "id": 125,
+      "nom": "Mozzarella",
+      "qte": 1,
+      "photo": "/images/Mozzarella.png"
+    },
+    {
+      "id": 126,
+      "nom": "Choux blanc",
+      "qte": 1,
+      "photo": "/images/ChouxBlanc.png"
+    },
+    {
+      "id": 127,
+      "nom":"Choux fleur",
+      "qte": 1,
+      "photo": "/images/ChouxFleur.png"
+    },
+    {
+      "id": 128,
+      "nom": "Champignon",
+      "qte": 1,
+      "photo": "/images/Champignon.png"
     }
   ]
   

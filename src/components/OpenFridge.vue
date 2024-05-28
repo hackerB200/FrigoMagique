@@ -39,7 +39,8 @@
                                 <v-autocomplete v-model="searchText" @update:model-value="searchFood"
                                     :items="itemToSearch" prepend-inner-icon="mdi-magnify" menu-icon=""
                                     placeholder="Chercher dans mon frigo" width="50%" :style="{ height: '56px' }"
-                                    variant="solo" auto-select-first item-props clearable></v-autocomplete>
+                                    variant="solo" auto-select-first item-props clearable
+                                    no-data-text="Pas d'aliment avec ce nom"></v-autocomplete>
                             </v-col>
                             <v-col cols="4" class="d-flex align-center ml-n4">
                                 <v-btn v-bind:disabled="fridgeItems.length == 0" @click="dialogDisplay = true"
@@ -209,8 +210,8 @@ function eatFood(item) {
 
 function magicShopping() {
     let randomIndices = [];
-    for (let i = 0; i < Math.floor(Math.random() * 5) + 1; i++) {
-        randomIndices.push(Math.floor(Math.random() * 20) + 101);
+    for (let i = 0; i < Math.floor(Math.random() * 5) + 1; i++) { // On prend entre 1 et 5 articles
+        randomIndices.push(Math.floor(Math.random() * 28) + 101); // On prend des indices entre 101 et 128
     }
 
     let supermarket = supermarketService.getProducts();
@@ -220,7 +221,7 @@ function magicShopping() {
     }
     console.log(randomProducts);
     for (let product of randomProducts) {
-        let qte = Math.floor(Math.random() * 5) + 1;
+        let qte = Math.floor(Math.random() * 5) + 1; // On prend entre 1 et 5 articles
         supermarketService.addFoodToFridge(product, qte).then((data) => {
             if (data.status == 0) {
                 console.error('Erreur lors de l\'ajout de l\'article:', product);

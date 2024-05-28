@@ -2,7 +2,7 @@
     <v-container>
         <v-row>
             <v-col cols="12">
-                <v-card class=" mx-auto" color="tertiary">
+                <v-card class="mx-auto" color="tertiary">
                     <v-card-title>Produits disponibles</v-card-title>
                     <v-container class="supermarket-list">
                         <v-row>
@@ -12,7 +12,8 @@
                                     <v-card-title>{{ product.name }}</v-card-title>
                                     <v-card-subtitle>
                                         <v-number-input :id="'' + product.id" :rules="required" :min="1" :max="20"
-                                            control-variant="split" label="Quantité" :model-value="1"></v-number-input>
+                                            control-variant="split" label="Quantité" :model-value="1"
+                                            clearable></v-number-input>
                                     </v-card-subtitle>
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
@@ -35,7 +36,7 @@
             {{ confirmedMessage.text }}
             <template v-slot:actions>
                 <v-btn color="accent" variant="text" @click="confirmedMessage.display = false">
-                    Close
+                    Fermer
                 </v-btn>
             </template>
         </v-snackbar>
@@ -63,9 +64,13 @@ function loadProducts() {
 
 function addToFridge(product) {
     let inputQte = document.getElementById(product.id);
+
+    console.log("mange tes morts" + (inputQte.value == ""));
     const qte = parseInt(inputQte.value);
-    if (qte < 1) {
+    if (inputQte.value == "" || qte < 1) {
         console.error('Quantité invalide');
+        confirmedMessage.text = 'Mauvaise quantité';
+        confirmedMessage.display = true;
         return;
     }
 
@@ -76,7 +81,6 @@ function addToFridge(product) {
         }
         confirmedMessage.text = product.name + ' ajouté au frigo';
         confirmedMessage.display = true;
-        inputQte.value = 1;
     }).catch((error) => {
         console.error('Erreur lors de l\'ajout de l\'article:', error);
     });
