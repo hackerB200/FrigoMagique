@@ -17,6 +17,7 @@ Lien vers le backend : https://webmmi.iut-tlse3.fr/~pecatte/frigo/public/13/prod
 
 * **Vider le frigo en une fois** : Sur la page frigo en cliquant sur "Tout manger" pour supprimer tous les produits du frigo
 * **Courses automatiques aléatoires** : Sur la page du Supermarché en cliquant sur "Lancer le sort ABRAKADACOURSES" pour ajouter des produits aléatoires dans le frigo
+* **Recherche de produits dans le supermarché** : Sur la page du supermarché en cherchant un nom dans la barre de recherche
 
 #
 Auteur : Eva Tubia
