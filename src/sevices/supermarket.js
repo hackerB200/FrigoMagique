@@ -15,7 +15,7 @@ export default class supermarket {
 
     // Récupère les produits du supermarché (fichier json)
     getSupermarketProducts () {
-        fetch('/public/supermarket.json')
+        fetch('https://hackerb200.github.io/FrigoMagique/public/supermarket.json')
             .then(response => response.json())
             .then(data => {
                 for (let product of data) {
