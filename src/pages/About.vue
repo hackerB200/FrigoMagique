@@ -75,6 +75,13 @@
 							des produits aléatoires dans le frigo
 						</v-list-item-subtitle>
 					</v-list-item>
+
+					<v-list-item>
+						<v-list-item-title>3. Recherche de produits dans le supermarché</v-list-item-title>
+						<v-list-item-subtitle>
+							Sur la page du supermarché en cherchant un nom dans la barre de recherche
+						</v-list-item-subtitle>
+					</v-list-item>
 				</v-list>
 			</v-container>
 		</v-card-text>
