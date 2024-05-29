@@ -3,18 +3,20 @@
         <v-row>
             <v-col cols="12">
                 <v-card class="mx-auto" color="tertiary">
-                    <v-card-title>Produits disponibles</v-card-title>
-                    <!-- <v-autocomplete v-model="searchText" @update:model-value="searchFood" :items="products"
-                        prepend-inner-icon="mdi-magnify" menu-icon="" placeholder="Chercher dans le supermarché"
-                        width="50%" :style="{ height: '56px' }" variant="solo" auto-select-first item-props clearable
-                        no-data-text="Pas d'aliment avec ce nom"></v-autocomplete> -->
-                    <v-text-field :loading="loading" append-inner-icon="mdi-magnify" density="compact"
-                        label="Search templates" variant="solo" hide-details single-line
-                        @click:append-inner="onClick"></v-text-field>
+                    <v-row align="center">
+                        <v-col cols="4">
+                            <v-card-title>Produits disponibles</v-card-title>
+                        </v-col>
+                        <v-col cols="6">
+                            <v-text-field id="searchInput" prepend-inner-icon="mdi-magnify" density="compact"
+                                label="Chercher dans le supermarché" variant="solo" hide-details single-line
+                                @click:prepend-inner="searchFood" @click:clear="resetSearch" clearable></v-text-field>
+                        </v-col>
+                    </v-row>
 
                     <v-container class="supermarket-list">
                         <v-row>
-                            <v-col v-for="product in products" :key="product.id" cols="12" sm="6" md="4" lg="3">
+                            <v-col v-for="product in resultProducts" :key="product.id" cols="12" sm="6" md="4" lg="3">
                                 <v-card outlined class="pt-5">
                                     <v-img :src="product.photo" height="150px"></v-img>
                                     <v-card-title>{{ product.name }}</v-card-title>
@@ -54,23 +56,35 @@
 <script setup>
 // TODO: recherche avec filtre sur supermarché
 // TODO: demander au prof pour l'ajout de produit sans formulaire
-import { onMounted, reactive } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 
 import supermarket from '@/sevices/supermarket.js';
 
 const supermarketService = new supermarket();
-let products = reactive([]);
+let products = ref([]);
+let resultProducts = ref([]);
 let required = [value => !!value || 'Champ requis'];
 let confirmedMessage = reactive({ text: '', display: false });
-let searchText = '';
-
 
 onMounted(() => {
     loadProducts();
+
+    document.getElementById('searchInput').addEventListener('keyup', (event) => {
+        if (event.key === 'Enter') {
+            searchFood();
+        }
+    });
 });
 
+function resetSearch() {
+    document.getElementById('searchInput').value = '';
+    searchFood();
+}
+
 function loadProducts() {
-    products = supermarketService.getProducts();
+    let data = supermarketService.getProducts();
+    products.value = data;
+    resultProducts.value = data;
 }
 
 function addToFridge(product) {
@@ -98,10 +112,16 @@ function addToFridge(product) {
 }
 
 function searchFood() {
-    // mapper les produits en fonction du champ de recherche
-    products = supermarketService.getProducts().filter((product) => {
+    let searchText = document.getElementById('searchInput').value;
+    let result = products.value.filter((product) => {
+        if (searchText == '') return true;
         return product.name.toLowerCase().includes(searchText.toLowerCase());
     });
+    if (result.length == 0) {
+        confirmedMessage.text = 'Aucun résultat trouvé';
+        confirmedMessage.display = true;
+    }
+    resultProducts.value = result;
 }
 
 </script>

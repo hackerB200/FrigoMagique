@@ -16,4 +16,6 @@ export default class Food {
     get photo() { return this._photo }
 
     toString() { return `--> ${this._name} (${ this._qte})`; }
+
+    nameToLowerCase() { return this._name.toLowerCase(); }
 }
