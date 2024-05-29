@@ -11,7 +11,7 @@ import { fileURLToPath, URL } from 'node:url'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/FrigoMagique/",
+  base: process.env.NODE_ENV === 'production' ? "/FrigoMagique/" : "/",
   plugins: [
     VueRouter(),
     Vue({

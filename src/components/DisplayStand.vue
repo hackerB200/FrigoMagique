@@ -89,8 +89,6 @@ function loadProducts() {
 
 function addToFridge(product) {
     let inputQte = document.getElementById(product.id);
-
-    console.log("mange tes morts" + (inputQte.value == ""));
     const qte = parseInt(inputQte.value);
     if (inputQte.value == "" || qte < 1) {
         console.error('Quantité invalide');

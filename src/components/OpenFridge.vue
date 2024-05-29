@@ -219,7 +219,6 @@ function magicShopping() {
     for (let index of randomIndices) {
         randomProducts.push(supermarket.find(product => product.id == index));
     }
-    console.log(randomProducts);
     for (let product of randomProducts) {
         let qte = Math.floor(Math.random() * 5) + 1; // On prend entre 1 et 5 articles
         supermarketService.addFoodToFridge(product, qte).then((data) => {
