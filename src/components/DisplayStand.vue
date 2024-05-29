@@ -4,6 +4,14 @@
             <v-col cols="12">
                 <v-card class="mx-auto" color="tertiary">
                     <v-card-title>Produits disponibles</v-card-title>
+                    <!-- <v-autocomplete v-model="searchText" @update:model-value="searchFood" :items="products"
+                        prepend-inner-icon="mdi-magnify" menu-icon="" placeholder="Chercher dans le supermarché"
+                        width="50%" :style="{ height: '56px' }" variant="solo" auto-select-first item-props clearable
+                        no-data-text="Pas d'aliment avec ce nom"></v-autocomplete> -->
+                    <v-text-field :loading="loading" append-inner-icon="mdi-magnify" density="compact"
+                        label="Search templates" variant="solo" hide-details single-line
+                        @click:append-inner="onClick"></v-text-field>
+
                     <v-container class="supermarket-list">
                         <v-row>
                             <v-col v-for="product in products" :key="product.id" cols="12" sm="6" md="4" lg="3">
@@ -44,6 +52,8 @@
 </template>
 
 <script setup>
+// TODO: recherche avec filtre sur supermarché
+// TODO: demander au prof pour l'ajout de produit sans formulaire
 import { onMounted, reactive } from 'vue';
 
 import supermarket from '@/sevices/supermarket.js';
@@ -52,6 +62,7 @@ const supermarketService = new supermarket();
 let products = reactive([]);
 let required = [value => !!value || 'Champ requis'];
 let confirmedMessage = reactive({ text: '', display: false });
+let searchText = '';
 
 
 onMounted(() => {
@@ -83,6 +94,13 @@ function addToFridge(product) {
         confirmedMessage.display = true;
     }).catch((error) => {
         console.error('Erreur lors de l\'ajout de l\'article:', error);
+    });
+}
+
+function searchFood() {
+    // mapper les produits en fonction du champ de recherche
+    products = supermarketService.getProducts().filter((product) => {
+        return product.name.toLowerCase().includes(searchText.toLowerCase());
     });
 }
 
