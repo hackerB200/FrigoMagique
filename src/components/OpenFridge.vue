@@ -103,10 +103,6 @@
                             </v-col>
                         </v-row>
                     </v-container>
-                    <p class="ml-5" v-if="fridgeItems.length == 0">
-                        Le frigo est vide... il est temps d'aller faire les courses non ?
-                    </p>
-
                     <v-snackbar v-model="showEmptyDisplay" color="tertiary">
                         Le frigo est vide... il est temps d'aller faire les courses non ?
                         <template v-slot:actions>
