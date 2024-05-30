@@ -8,12 +8,13 @@
                         <v-card-title>
                             <span class="text-h4">Mon Frigo</span>
                         </v-card-title>
-                        <v-card class="fridge-handle round-xl" color="primary"></v-card>
+                        <v-card class="fridge-handle round-xl mt-3" color="primary"></v-card>
                     </div>
                     <v-divider :thickness="4" color="primary" class="border-opacity-100 divider"></v-divider>
-                    <v-card class="fridge-handle round-xl" color="primary"></v-card>
+
                 </div>
                 <router-link :to="'/Fridge'">
+                    <v-card class="fridge-handle round-xl mr-5 mt-5" color="primary"></v-card>
                     <v-row justify="center">
                         <v-col cols="12" md="8">
                             <v-card height="600px" width="400px" class="mt-15" color="info" variant="flat">
@@ -39,7 +40,7 @@
 }
 
 .fridge-header {
-    height: 175px;
+    height: 250px;
 }
 
 .fridge-handle {

@@ -29,24 +29,47 @@
                         <v-card-title>
                             <span class="text-h4">Mon Frigo</span>
                         </v-card-title>
-                        <v-card class="fridge-handle round-xl" color="primary"></v-card>
+                        <v-card class="fridge-handle round-xl mt-3" color="primary"></v-card>
                         <v-card-subtitle class="text-h6">
                             Liste des articles dans le frigo
                         </v-card-subtitle>
 
                         <v-row justify="center" class="mt-1">
-                            <v-col cols="8" class="d-flex align-center ml-n4">
+                            <v-col cols="7" class="d-flex align-center ml-n4">
                                 <v-autocomplete v-model="searchText" @update:model-value="searchFood"
                                     :items="itemToSearch" prepend-inner-icon="mdi-magnify" menu-icon=""
                                     placeholder="Chercher dans mon frigo" width="50%" :style="{ height: '56px' }"
                                     variant="solo" auto-select-first item-props clearable
                                     no-data-text="Pas d'aliment avec ce nom"></v-autocomplete>
                             </v-col>
-                            <v-col cols="4" class="d-flex align-center ml-n4">
+                            <v-col cols="5" class="d-flex align-center ml-n4">
                                 <v-btn v-bind:disabled="fridgeItems.length == 0" @click="dialogDisplay = true"
                                     color="success" height="56px" class="text-subtitle-1" variant="text">
-                                    <v-icon class="mr-2" size="25">mdi-stomach</v-icon>
+                                    <template v-slot:prepend>
+                                        <v-icon size="25">mdi-stomach</v-icon>
+                                    </template>
                                     TOUT MANGER
+                                </v-btn>
+                            </v-col>
+                        </v-row>
+
+                        <v-row justify="center" class="mt-1 ml-4">
+                            <v-col class="d-flex align-center ml-n4">
+                                <v-btn class="text-subtitle-1 pa-2 pr-5 mt-2" height="50px" @click="magicShopping"
+                                    variant="text" color="blue">
+                                    <template v-slot:prepend>
+                                        <v-icon color="blue" class="mx-2" size="25">mdi-magic-staff</v-icon>
+                                    </template>
+                                    LANCER LE SORT ABRAKADACOURSES
+                                </v-btn>
+                            </v-col>
+                            <v-col class="d-flex align-center ml-n4">
+                                <v-btn class="text-subtitle-1 pa-2 mt-2" height="50px" to="/Supermarket" variant="text"
+                                    color="warning">
+                                    <template v-slot:prepend>
+                                        <v-icon color="warning" class="mx-2" size="25">mdi-logout</v-icon>
+                                        FAIRE LES COURSES
+                                    </template>
                                 </v-btn>
                             </v-col>
                         </v-row>
@@ -84,23 +107,15 @@
                         Le frigo est vide... il est temps d'aller faire les courses non ?
                     </p>
 
-                    <!-- Bas du frigo -->
-                    <v-divider></v-divider>
-                    <v-card-actions>
-                        <v-btn class="text-subtitle-1 pa-2 mt-2" height="50px" to="/Supermarket">
-                            <template v-slot:prepend>
-                                <v-icon color="warning" class="mx-2" size="25">mdi-logout</v-icon>
-                                FAIRE LES COURSES
-                            </template>
-                        </v-btn>
-                        <v-spacer></v-spacer>
-                        <v-btn class="text-subtitle-1 pa-2 mt-2" height="50px" @click="magicShopping">
-                            <template v-slot:prepend>
-                                <v-icon color="blue" class="mx-2" size="25">mdi-magic-staff</v-icon>
-                            </template>
-                            LANCER LE SORT ABRAKADACOURSES
-                        </v-btn>
-                    </v-card-actions>
+                    <v-snackbar v-model="showEmptyDisplay" color="tertiary">
+                        Le frigo est vide... il est temps d'aller faire les courses non ?
+                        <template v-slot:actions>
+                            <v-btn color="accent" variant="text" @click="showEmptyDisplay = false">
+                                Fermer
+                            </v-btn>
+                        </template>
+                    </v-snackbar>
+
                 </div>
             </v-card>
         </v-col>
@@ -118,6 +133,7 @@ let fridgeItems = reactive([]);
 let itemToSearch = reactive([]);
 let searchText = '';
 let dialogDisplay = ref(false);
+let showEmptyDisplay = ref(false);
 
 onMounted(() => {
     loadFridgeItems();
@@ -153,6 +169,9 @@ function loadFridgeItems(filter = null) {
             for (let item of data) {
                 fridgeItems.push(new Food(item));
                 itemToSearch.push({ title: item.nom, value: item.nom });
+            }
+            if (fridgeItems.length == 0) {
+                showEmptyDisplay.value = true;
             }
         })
         .catch(error => {
@@ -250,7 +269,7 @@ function magicShopping() {
 }
 
 .fridge-header {
-    height: 175px;
+    height: 250px;
 }
 
 .fridge-handle {

@@ -54,8 +54,7 @@
 </template>
 
 <script setup>
-// TODO: recherche avec filtre sur supermarché
-// TODO: demander au prof pour l'ajout de produit sans formulaire
+
 import { onMounted, reactive, ref } from 'vue';
 
 import supermarket from '@/sevices/supermarket.js';
