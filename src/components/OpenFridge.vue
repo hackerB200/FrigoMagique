@@ -1,5 +1,5 @@
 <template>
-    <!-- Confirmation pour vider le frigo -->
+    <!-- Dialogue confirmation pour vider le frigo -->
     <v-dialog max-width="500" v-model="dialogDisplay">
         <v-card class="pa-2">
             <v-card-title class="d-flex justify-space-between align-center">
@@ -19,11 +19,13 @@
         </v-card>
     </v-dialog>
 
+    <!-- Frigo -->
     <v-row justify="center">
         <v-col cols="12" md="8">
             <v-card class="fridge-card mx-auto rounded-xl" color="info">
                 <!-- Intérieur du frigo -->
                 <div class="pa-5">
+
                     <!-- Partie congélateur -->
                     <div class="fridge-header">
                         <v-card-title>
@@ -75,16 +77,18 @@
                         </v-row>
                     </div>
 
-                    <!-- Partie frigo -->
+                    <!-- Partie intérieure -->
                     <v-divider :thickness="4" color="primary" class="border-opacity-100"></v-divider>
                     <v-container class="fridge-list">
                         <v-row>
                             <v-col v-for="item in fridgeItems" :key="item.id" cols="12" sm="6" md="4">
+
                                 <v-card outlined color="secondary" height="100%" class="px-1">
                                     <v-card-title>{{ item.name }}
                                         <span class="text-subtitle-2"> x {{ item.qte }}</span>
                                     </v-card-title>
                                     <v-img :src="item.photo" height="125px"></v-img>
+
                                     <v-card-actions class="d-flex flex-column align-end">
                                         <v-btn color="warning" @click="eatFood(item)" class="mb-2">
                                             <template v-slot:prepend>
@@ -100,9 +104,12 @@
                                         </v-btn>
                                     </v-card-actions>
                                 </v-card>
+
                             </v-col>
                         </v-row>
                     </v-container>
+
+                    <!-- Message tips si frigo vide -->
                     <v-snackbar v-model="showEmptyDisplay" color="tertiary">
                         Le frigo est vide... il est temps d'aller faire les courses non ?
                         <template v-slot:actions>
@@ -111,7 +118,6 @@
                             </v-btn>
                         </template>
                     </v-snackbar>
-
                 </div>
             </v-card>
         </v-col>
@@ -224,16 +230,9 @@ function eatFood(item) {
 }
 
 function magicShopping() {
-    let randomIndices = [];
-    for (let i = 0; i < Math.floor(Math.random() * 5) + 1; i++) { // On prend entre 1 et 5 articles
-        randomIndices.push(Math.floor(Math.random() * 28) + 101); // On prend des indices entre 101 et 128
-    }
+    let randomIndex = getRandomIndex();
+    let randomProducts = getProductsByIndexes(randomIndex);
 
-    let supermarket = supermarketService.getProducts();
-    let randomProducts = [];
-    for (let index of randomIndices) {
-        randomProducts.push(supermarket.find(product => product.id == index));
-    }
     for (let product of randomProducts) {
         let qte = Math.floor(Math.random() * 5) + 1; // On prend entre 1 et 5 articles
         supermarketService.addFoodToFridge(product, qte).then((data) => {
@@ -248,6 +247,23 @@ function magicShopping() {
             console.error('Erreur lors de l\'ajout de l\'article:', error);
         });
     }
+}
+
+function getRandomIndex() {
+    let tabIndex = [];
+    for (let i = 0; i < Math.floor(Math.random() * 5) + 1; i++) { // On prend entre 1 et 5 articles
+        tabIndex.push(Math.floor(Math.random() * 28) + 101); // On prend des indices entre 101 et 128
+    }
+    return tabIndex;
+}
+
+function getProductsByIndexes(tabIndex) {
+    let supermarket = supermarketService.getProducts();
+    let randomProducts = [];
+    for (let index of tabIndex) {
+        randomProducts.push(supermarket.find(product => product.id == index));
+    }
+    return randomProducts;
 }
 
 </script>

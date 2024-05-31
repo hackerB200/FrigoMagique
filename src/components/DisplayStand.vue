@@ -3,6 +3,7 @@
         <v-row>
             <v-col cols="12">
                 <v-card class="mx-auto" color="tertiary">
+
                     <v-row align="center">
                         <v-col cols="4">
                             <v-card-title>Produits disponibles</v-card-title>
@@ -14,17 +15,21 @@
                         </v-col>
                     </v-row>
 
+                    <!-- Etalage -->
                     <v-container class="supermarket-list">
                         <v-row>
                             <v-col v-for="product in resultProducts" :key="product.id" cols="12" sm="6" md="4" lg="3">
+
                                 <v-card outlined class="pt-5">
                                     <v-img :src="product.photo" height="150px"></v-img>
                                     <v-card-title>{{ product.name }}</v-card-title>
+
                                     <v-card-subtitle>
                                         <v-number-input :id="'' + product.id" :rules="required" :min="1" :max="20"
                                             control-variant="split" label="Quantité" :model-value="1"
                                             clearable></v-number-input>
                                     </v-card-subtitle>
+
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
                                         <v-btn color="success" @click="addToFridge(product)" class="m-1 pr-3">
@@ -35,13 +40,16 @@
                                         </v-btn>
                                     </v-card-actions>
                                 </v-card>
+
                             </v-col>
                         </v-row>
                     </v-container>
-                    <v-divider></v-divider>
+
                 </v-card>
             </v-col>
         </v-row>
+
+        <!-- Message tips -->
         <v-snackbar v-model="confirmedMessage.display" color="tertiary">
             {{ confirmedMessage.text }}
             <template v-slot:actions>
@@ -50,6 +58,7 @@
                 </v-btn>
             </template>
         </v-snackbar>
+
     </v-container>
 </template>
 
@@ -67,13 +76,16 @@ let confirmedMessage = reactive({ text: '', display: false });
 
 onMounted(() => {
     loadProducts();
+    addListenerOnSearch();
+});
 
+function addListenerOnSearch() {
     document.getElementById('searchInput').addEventListener('keyup', (event) => {
         if (event.key === 'Enter') {
             searchFood();
         }
     });
-});
+}
 
 function resetSearch() {
     document.getElementById('searchInput').value = '';
@@ -90,9 +102,7 @@ function addToFridge(product) {
     let inputQte = document.getElementById(product.id);
     const qte = parseInt(inputQte.value);
     if (inputQte.value == "" || qte < 1) {
-        console.error('Quantité invalide');
-        confirmedMessage.text = 'Mauvaise quantité';
-        confirmedMessage.display = true;
+        showSnackbarTips('Quantité invalide');
         return;
     }
 
@@ -101,8 +111,7 @@ function addToFridge(product) {
             console.error('Erreur lors de l\'ajout de l\'article:', product);
             return;
         }
-        confirmedMessage.text = product.name + ' ajouté au frigo';
-        confirmedMessage.display = true;
+        showSnackbarTips(product.name + ' ajouté au frigo');
     }).catch((error) => {
         console.error('Erreur lors de l\'ajout de l\'article:', error);
     });
@@ -115,10 +124,14 @@ function searchFood() {
         return product.name.toLowerCase().includes(searchText.toLowerCase());
     });
     if (result.length == 0) {
-        confirmedMessage.text = 'Aucun résultat trouvé';
-        confirmedMessage.display = true;
+        showSnackbarTips('Aucun résultat trouvé');
     }
     resultProducts.value = result;
+}
+
+function showSnackbarTips(message) {
+    confirmedMessage.text = message;
+    confirmedMessage.display = true;
 }
 
 </script>
