@@ -3,6 +3,9 @@
 Une application de frigo créée avec Vue, Vuetify et Vite.
 Lien vers le backend : https://webmmi.iut-tlse3.fr/~pecatte/frigo/public/13/produits
 
+## Schéma de l'application
+![Schéma de l'application](./frigo.svg)
+
 ## Consignes
 * **Afficher le contenu du frigo** : Disponible sur la page du frigo (/Fridge)
 * **Ajouter un nouveau produit au frigo** : Sur la page du Supermarché (/Supermarket) en cliquant sur "Acheter" sur le produit souhaité
